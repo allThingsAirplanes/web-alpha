@@ -1,0 +1,24 @@
+:root {
+    --root_font_size: 16px;
+    --color_white: #fff;
+    --color_grey_light: #e9ecef;
+    --color_btn_blue: #4169e1;
+    --font_display: 'Renogare', sans-serif;
+    --font_content: 'Avenir', sans-serif;
+}
+
+html {
+    font-size: var(--root_font_size);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} 
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;  
+    background-color: var(--color_grey_light);
+    font-family: var(--font_display);
+}

@@ -1,0 +1,62 @@
+.header{
+    background-color: var(--color_white);
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--color_grey_light);
+    &-left {
+        display: flex;
+        align-items: center;
+        //the & grabs everything up the tree, everything that is in the parent(whatever is the higher level) of the select item (the & reaplces.header on line 2)
+        &-logo {
+            width: 6.25rem;
+            height: 6.25rem;
+            //rem: a rem is a relative unit. That means that it is a multiplier of the default font size of the application. 
+            & ing {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+        &-actions {
+            display: flex;
+            align-items: center;
+            &-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+
+                & svg {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            &-search {
+                font-size: 1.25rem;
+                border: 2px solid var(--color_grey_light);
+                padding: 0.25rem 0.5rem;
+                width: 33vw;
+            }
+        }
+    }
+    &-right {
+        &-nav {
+            &-inner {
+                display: flex;
+                align-items: center;
+                &-user {
+                    &-pic {
+                        width: 5rem;
+                        height: 5rem;
+                        overflow: hidden;
+                        border-radius: 100%;
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

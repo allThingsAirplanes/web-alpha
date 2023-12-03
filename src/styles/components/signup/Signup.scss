@@ -1,0 +1,133 @@
+@keyframes windowFadeIn {
+    from {
+        opactiy: 0;
+    } to {
+        opacity: 1;
+    }
+}
+.signup {
+    background: linear-gradient(to top, #B6C6D1, #508ECD);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    &-form {
+        width: 62.5%;
+        display: flex;
+        padding: 2.5rem;
+        background-color: var(--color_white);
+        filter: drop-shadow(5px 5px 5px var(--color_grey_light));
+        justify-content: center;
+        &-section {
+            margin: 2.5rem 0;
+            &-label {
+                font-size: 1.5rem;
+                margin-bottom: 1.25rem;
+                display: block;
+            }
+            &-input {
+                display: block;
+                font-size: 1.5rem;
+                padding: 0.25rem 0;
+                width: 25rem;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+                &::placeholder{
+                    color: rgba(0, 0, 0, 0.25);
+                }
+            }
+            &-button {
+                color: var(--color_white);
+                padding: 0.5rem 1.25rem;
+                background-color: #508ECD;
+                font-size: 1.25rem;
+            }
+        }
+        &-windows {
+            position: relative;
+            width: 35vw;
+            height: 35rem;
+            &-image {
+                border-radius: 25%;
+                overflow: hidden;
+                position: absolute;
+                &-01 {
+                    top: 50%;
+                    left: 55%;
+                    width: 50%;
+                    z-index: 100;
+                    animation: windowFadeIn 5s 0s ease-in forwards;
+                    opacity: 0;
+                    transform: translate(-50%, -50%);
+                    // aspect-ratio: 1/1.85;
+                    //this is the cinematic aspect ratio
+                    & img {
+                        width: 102.5%;
+                        height: 102.5%;
+                        object-fit: contain;
+                    }
+                }
+                &-02 {
+                    top: 10%;
+                    left: 10%;
+                    width: 17.5%;
+                    // aspect-ratio: 1/1.85;
+                    //this is the cinematic aspect ratio
+                    z-index: 125;
+                    animation: windowFadeIn 5s 2.5s ease-in forwards;
+                    opacity: 0;
+                    & img {
+                        width: 102.5%;
+                        height: 102.5%;
+                        object-fit: contain;
+                    }
+                }
+                &-03 {
+                    top: 62.5%;
+                    left: 17.5%;
+                    width: 10%;
+                    // aspect-ratio: 1/1.85;
+                    //this is the cinematic aspect ratio
+                    z-index: 75;
+                    animation: windowFadeIn 5s 5s ease-in forwards;
+                    opacity: 0;
+                    & img {
+                        width: 102.5%;
+                        height: 102.5%;
+                        object-fit: contain;
+                    }
+                }
+                &-04 {
+                    top: 40%;
+                    left: 16.25%;
+                    width: 12.5%;
+                    // aspect-ratio: 1/1.85;
+                    //this is the cinematic aspect ratio
+                    z-index: 25;
+                    animation: windowFadeIn 5s 8.5s ease-in forwards;
+                    opacity: 0;
+                    & img {
+                        width: 102.5%;
+                        height: 102.5%;
+                        object-fit: contain;
+                    }
+                }
+                &-05 {
+                    top: 72.5%;
+                    left: 7.5%;
+                    width: 15%;
+                    // aspect-ratio: 1/1.85;
+                    //this is the cinematic aspect ratio
+                    z-index: 150;
+                    animation: windowFadeIn 5s 12.5s ease-in forwards;
+                    opacity: 0;
+                    & img {
+                        width: 102.5%;
+                        height: 102.5%;
+                        object-fit: contain;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -9,8 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/blob": "^0.15.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.1",
+    "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.3"
+    "resend": "^2.0.0"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5"
   }
 }
