@@ -1,3 +1,4 @@
+import Link from "next/link"
 export default () => {
     return (
         <aside className="sidebar">
@@ -10,9 +11,9 @@ export default () => {
 
                     </div>
                     <div className="sidebar-links-link-text">
-                        <p>
+                        <Link href="/profile">
                             Profile
-                        </p>
+                        </Link>
                     </div>
                 </div>
                 <div className="sidebar-links-hangar sidebar-links-link">
@@ -20,9 +21,9 @@ export default () => {
                         <img src="https://static.thenounproject.com/png/3980699-84.png" />
                     </div>
                     <div className="sidebar-links-link-text">
-                        <p>
+                        <Link href="/virtual-hangar">
                             Virtual Hangar
-                        </p>
+                        </Link>
                     </div>
                 </div>
                 <div className="sidebar-links-friends sidebar-links-link">
@@ -34,9 +35,9 @@ export default () => {
 
                     </div>
                     <div className="sidebar-links-link-text">
-                        <p>
+                        <Link href="/friends">
                             Friends
-                        </p>
+                        </Link>
                     </div>
                 </div>
                 <div className="sidebar-links-clubs sidebar-links-link">
@@ -46,9 +47,9 @@ export default () => {
                         </svg>
                     </div>
                     <div className="sidebar-links-link-text">
-                        <p>
+                        <Link href="/clubs">
                             Clubs/Organizations
-                        </p>
+                        </Link>
                     </div>
                 </div>
                 <div className="sidebar-links-events sidebar-links-link">
@@ -59,9 +60,9 @@ export default () => {
 
                     </div>
                     <div className="sidebar-links-link-text">
-                        <p>
+                        <Link href="/events">
                             Events
-                        </p>
+                        </Link>
                     </div>
                 </div>
                 <div className="sidebar-links-projects sidebar-links-link">
@@ -73,9 +74,9 @@ export default () => {
 
                     </div>
                     <div className="sidebar-links-link-text">
-                        <p>
+                        <Link href="/projects">
                             Projects
-                        </p>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -20,7 +20,7 @@ export default () => {
     const handleContentChange = (event) => {
         setContent(event.target.value)
     }
-    const handlePostSubmit = async(event) => {
+    const handlePostSubmit = async (event) => {
         try {
             event.preventDefault()
             const mediaRefFiles = mediaRef.current?.files
@@ -29,95 +29,80 @@ export default () => {
             //? -> if no files are uploaded - it is not going to throw an error
             if (!mediaFile) {
                 alert("You must upload a file")
-                return 
+                return
             }
             const res = await fetch(`/api/uploadPostMedia?filename=${mediaFile.name}`, {
-                method: "POST", 
+                method: "POST",
                 body: mediaFile
             })
             const resJson = await res.json()
-            console.log("Post Media Upload resJson", resJson) 
+            console.log("Post Media Upload resJson", resJson)
             //First thing we handle uplaoding image to the blob storage
             //We need to put the image into the blob, but now we have to 
             //save the image into the database with the url
             //When we upload the blob
             //We will get a URL that points to it. 
-            const mediaUploadURL = resJson.url 
+            const mediaUploadURL = resJson.url
             const newPostData = {
-            content: content,
-            media_url: mediaUploadURL
-            } 
-            const newPostRes = await fetch ("/api/createPost", {
+                content: content,
+                media_url: mediaUploadURL
+            }
+            const newPostRes = await fetch("/api/createPost", {
                 method: "POST",
                 headers: {
                     "content-type": "applications/json"
-                }, 
+                },
                 body: JSON.stringify(newPostData)
             })
             const newPostResJson = await newPostRes.json()
             console.log("newPostResJson", newPostResJson)
             location.reload()
             //This is the easy way that we are going to change in the future. 
-        } catch(error) {
+        } catch (error) {
             console.log("Error with handlePostSubmit", error)
         }
     }
     const renderPostForm = () => {
-        if (showPostForm) {
-            return (
-                <div>
+        return (
+            <div className="upload-post-form">
                 <form onSubmit={handlePostSubmit}>
                     <div>
                         <label>
                             Upload an Image
                         </label>
-                        <input 
-                        type = "file"
-                        accept = "image/*"
-                        ref = {
-                            mediaRef
-                        } 
-                        onChange = {
-                            handleFileUpload
-                        }
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={
+                                mediaRef
+                            }
+                            onChange={
+                                handleFileUpload
+                            }
                         />
                     </div>
                     <div>
                         <label>
                             Content
                         </label>
-                        <input 
-                        type = "text"
-                        ref = {
-                            mediaRef
-                        }
-                        onChange = {
-                            handleContentChange
-                        }
+                        <textarea className="upload-post-form-textarea"
+                            onChange={
+                                handleContentChange
+                            }
+                            placeholder="Write Something"
                         />
                     </div>
                     <div>
-                        <button type="submit">
-                            Submit
+                        <button className="upload-post-form-button" type="submit">
+                            Create New Post
                         </button>
                     </div>
                 </form>
             </div>
-            )
-        }
+        )
     }
     return (
-        <div>
-            <div>
-                <button className="post-upload-btn" onClick = {handleShowPostForm}>
-                    Create new post
-                </button>
-            </div>
-            <div>
-                <h1>
-                    Create a new post
-                </h1>
-            </div>
+        <div className="upload-post">
             {renderPostForm()}
         </div>
     )

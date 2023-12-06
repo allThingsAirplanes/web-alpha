@@ -1,2 +1,16 @@
-@import "reset", "fonts", "global", "layout", "pages/Page", "pages/Dashboard", "components/header/Header", "components/sidebar/Sidebar", "components/posts/UploadPost", "components/signup/Signup";
+@import 
+"reset", 
+"fonts", 
+"global", 
+"layout", 
+"pages/Page", 
+"pages/Dashboard", 
+"pages/NotFound",
+"components/header/Header", 
+"components/sidebar/Sidebar", 
+"components/posts/UploadPost", 
+"components/posts/Post",
+"components/signup/Signup",
+"components/profile/Profile"
+;
 //the order matters

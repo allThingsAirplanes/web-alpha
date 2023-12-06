@@ -1,8 +1,28 @@
-.post-upload-btn {
-    background-color: var(--color_btn_blue);
-    padding: 0.25rem 0.75rem;
-    color: var(--color_white);
-    font-size: 1rem;
-    //padding is the space inside that goes around the item
-    border-radius: 100vmax;
+.upload-post {
+    background-color: var(--color_white);
+    width: 50vw;
+    padding: 1rem;
+    margin-bottom: 2.5rem;
+    border-radius: 1rem;
+    margin-top: 1.5rem;
+    &-form {
+        &-button {
+            background-color: blue;
+            color: white;
+            border-radius: 100vmax;
+            padding: 0.5rem 1.25rem;
+            font-size: 1rem;
+            margin-top: 1.25rem;
+
+        }
+        &-textarea {
+            display: block;
+            width: 100%;
+            height: 5rem;
+            padding: 0.5rem 0;
+            &::placeholder {
+                color: grey;
+            }
+        }
+    }
 }
