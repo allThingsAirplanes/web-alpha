@@ -3,10 +3,13 @@
     width: 100vw;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25vw;
     border-bottom: 2px solid var(--color_grey_light);
     &-left {
         display: flex;
         align-items: center;
+        gap: 2.5rem;
         //the & grabs everything up the tree, everything that is in the parent(whatever is the higher level) of the select item (the & reaplces.header on line 2)
         &-logo {
             width: 6.25rem;
@@ -21,6 +24,7 @@
         &-actions {
             display: flex;
             align-items: center;
+            gap: 1.25rem;
             &-icon {
                 width: 2.5rem;
                 height: 2.5rem;
@@ -33,6 +37,7 @@
             &-search {
                 font-size: 1.25rem;
                 border: 2px solid var(--color_grey_light);
+                border-radius: 1rem;
                 padding: 0.25rem 0.5rem;
                 width: 33vw;
             }
@@ -43,6 +48,7 @@
             &-inner {
                 display: flex;
                 align-items: center;
+                gap: 1.25rem;
                 &-user {
                     &-pic {
                         width: 5rem;
