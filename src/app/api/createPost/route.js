@@ -14,6 +14,10 @@ import Post from "@/models/Post"
 
 import { checkSession } from "@/utils/auth"
 
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export async function POST(req, res) {
     try {
         const session = await checkSession()

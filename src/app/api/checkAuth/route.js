@@ -3,6 +3,11 @@ import { cookies } from "next/headers"
 import { connectMongo } from "@/config/mongo"
 import User from "@/models/User"
 import { checkSession } from "@/utils/auth"
+
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export const POST = async() => {
     try {
         const session = await checkSession()

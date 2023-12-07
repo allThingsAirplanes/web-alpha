@@ -16,6 +16,11 @@ import {
 import User from "@/models/User"
 //where a GET request retrieves data from a server, a POST request sends data to the server
 import { createJWT } from "@/utils/auth.js"
+
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export async function POST(req, res) {
     try {
         const reqjson = await req.json () 

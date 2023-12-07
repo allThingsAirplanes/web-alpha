@@ -15,6 +15,10 @@ import Club from "@/models/Club"
 
 import { checkSession } from "@/utils/auth"
 
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export async function POST(req, res) {
     try {
         const reqjson = await req.json()

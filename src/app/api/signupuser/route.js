@@ -18,6 +18,10 @@ import { hashUserPassword } from "@/utils/auth.js"
 
 import { createJWT } from "@/utils/auth.js";
 
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req, res) {

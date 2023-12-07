@@ -2,6 +2,10 @@ import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 import { checkSession } from '@/utils/auth';
 
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export async function POST(request) {
     try {
         const session = await checkSession()

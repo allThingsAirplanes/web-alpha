@@ -7,6 +7,10 @@ import {
 } from "@/config/mongo.js"
 import User from "@/models/User"
 
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export async function GET(req) {
     try {
         const {searchParams} = new URL (req.url)

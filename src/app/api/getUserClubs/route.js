@@ -8,6 +8,10 @@ import Club from "@/models/Club"
 
 import { checkSession } from "@/utils/auth"
 
+export const dynamic = "force-dynamic"
+
+export const revalidate = 0
+
 export async function GET() {
     try {
         const session = await checkSession()
