@@ -1,4 +1,4 @@
-.upload-post {
+.create-club {
     background-color: var(--color_white);
     width: 50vw;
     padding: 1rem;
@@ -31,6 +31,15 @@
             }
         }
         &-textarea {
+            display: block;
+            width: 100%;
+            height: 5rem;
+            padding: 0.5rem 0;
+            &::placeholder {
+                color: grey;
+            }
+        }
+        &-input {
             display: block;
             width: 100%;
             height: 5rem;

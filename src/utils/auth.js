@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken"
 //we hash it again, and if the hash for whatever they types in whatevery is in the databse,
 //then it is the correct password - as it is not random.
 //If you have 123, everytime you hash it, you will get the same thing. 
+import { cookies } from "next/headers"
 
 export const hashUserPassword = async(plainTextPassword) => {
     try {
@@ -57,3 +58,14 @@ export const checkAuth = async(token) => {
     //jwts are the most common
 }
 
+export const checkSession = async() => {
+    const reqCookies = cookies()
+    const authCookie = reqCookies.get("auth")
+    console.log(authCookie)
+    if (!authCookie || !authCookie.value) {
+        return false
+    }
+    //IMPORTANT: only authenticated users can make posts
+    const verifiedJWT = await checkAuth(authCookie.value) 
+    return verifiedJWT
+}

@@ -2,21 +2,11 @@ import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { connectMongo } from "@/config/mongo"
 import User from "@/models/User"
-import { checkAuth } from "@/utils/auth"
+import { checkSession } from "@/utils/auth"
 export const POST = async() => {
     try {
-        const userCookies = cookies()
-        const authCookie = userCookies.get("auth")
-        console.log("authCookie", authCookie)
-        if (!authCookie || !authCookie.value) {
-            return NextResponse.json({
-                success: false,
-                error_message: "Could not authenticate",
-                data: null
-            })
-        }
-        const verifiedJWT = await checkAuth(authCookie.value) 
-        if (!verifiedJWT) {
+        const session = await checkSession()
+        if (!session) {
             return NextResponse.json({
                 success: false,
                 error_message: "Could not authenticate",
@@ -25,7 +15,7 @@ export const POST = async() => {
         } 
         await connectMongo()
         const foundUser = await User.findOne({
-            _id: verifiedJWT.data.id
+            _id: session.data.id
         })
         const safeFoundUser = {
             ...foundUser._doc,

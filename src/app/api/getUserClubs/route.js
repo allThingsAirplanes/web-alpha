@@ -6,16 +6,25 @@ import { connectMongo } from "@/config/mongo"
 
 import Club from "@/models/Club"
 
+import { checkSession } from "@/utils/auth"
+
 export async function GET() {
     try {
+        const session = await checkSession()
+        if (!session) {
+            return NextResponse.json({
+                success: false,
+                error_message: "Could not authenticate",
+                data: null
+            })
+        }
         await connectMongo(
 
         ) 
         const clubs = await Club.find({
-
-        }).populate([{
-            path: "members"
-        }]).sort({createdAt: -1})
+            members: session.data.find
+            //this should only get the clubs where the user is the member
+        }) 
         const resData = clubs 
         return NextResponse.json(resData)
     } catch (error) {
