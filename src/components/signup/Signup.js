@@ -42,7 +42,7 @@ export default () => {
             }
             console.log(submitJson)
             setUser(submitJson)
-            location.href = "/dashboard"
+            location.href = "/welcome"
         } catch (error) {
             console.log("Error in handleSignupSubmit", error)
         }

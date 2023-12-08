@@ -19,7 +19,7 @@ async function connectMongo() {
             console.log("Initialized MongoDB Model: ", model)
         })
         // connect to mongodb
-        cached.promise = mongoose.connect(process.env.MONDGODB_CONNECTION_URI, opts).then((mongoose) => {
+        cached.promise = mongoose.connect(process.env.MONGODB_CONNECTION_URI, opts).then((mongoose) => {
             console.log("Connect to MongoDB...")
             return mongoose;
         });

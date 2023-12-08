@@ -1,8 +1,9 @@
 .sidebar {
     background-color: var(--color_white);
+    // position: fixed;
     padding: 1.25rem 2.5vw;
-    height: 100vw;
-    min-width: 15rem;
+    height: 100%;
+    min-height: 100vh;
     //minimum width - it can never be smaller than 15rem - changes when you change the screen size. 
     &-links {
         &-link {

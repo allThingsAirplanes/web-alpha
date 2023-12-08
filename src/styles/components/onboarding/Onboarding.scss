@@ -1,0 +1,113 @@
+.onboarding {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 2.5rem;
+
+    &-header {
+        font-size: 2.5rem;
+
+        margin-bottom: 2.5rem;
+    }
+    &-interests, &-connections {
+        &-header {
+            font-size: 1.35rem;
+
+            padding-bottom: 0.5rem;
+           
+                border-bottom: 2px solid lightblue;
+            
+        }
+
+        &-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto;
+            justify-items: center;
+            gap: 2.5rem;
+            width: 100%;
+
+            &-item {
+                background-color: var(--color_white);
+                padding: 0.5rem;
+                margin: 1.5rem;
+                width: 20vw;
+                //this is NOT going to work on mobile
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                border-radius: 1rem;
+                overflow: hidden;
+
+                position: relative;
+
+                border: 2px solid transparent;
+
+                cursor: pointer;
+
+                transition: all 0.2s ease-out;
+
+                &:hover {
+                    border: 2px solid lightblue;
+                }
+
+                &-selected {
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+    
+                        width: 100%;
+                        height: 100%;
+    
+                        background-color: lightblue;
+                        opacity: 0.25;
+    
+                        z-index: 250;
+    
+                        border: 2px solid lightblue;
+                    }
+                }
+
+                &-header {
+                    text-align: center;
+                    font-size: 1.25rem;
+
+                    margin-bottom: 1.25rem;
+                }
+    
+                &-image {
+                    width: 10rem;
+                    height: 10rem;
+                    margin-bottom: 1.5rem;
+                    border-radius: 100%;
+                    overflow: hidden;
+    
+                    & img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+
+    &-actions {
+        &-button {
+            margin-top: 1rem;
+
+            padding: 0.5rem 1.25rem;
+
+            border-radius: 100vmax;
+
+            background-color: blue;
+            color: white;
+
+            cursor: pointer;
+        }
+    }
+}

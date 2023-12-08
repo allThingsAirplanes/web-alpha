@@ -44,14 +44,14 @@ export async function POST(req, res) {
             //only store the hash!!!!!!!!!!!!!!!!!!!!
         }).save()
         console.log("New User", newUser)
-        resend.emails.send({
-            from: 'onboarding@resend.dev',
-            //create an email server later and change it
-            to: 'garygao333@gmail.com',
-            subject: 'Welcome to All Things Airplanes',
-            //GET READY TO TAKE OFF
-            html: '<p>Welcome to All Things Airplanes, where you can connect to the broader and local aviation community</p>'
-        });
+        // resend.emails.send({
+        //     from: 'onboarding@resend.dev',
+        //     //create an email server later and change it
+        //     to: 'garygao333@gmail.com',
+        //     subject: 'Welcome to All Things Airplanes',
+        //     //GET READY TO TAKE OFF
+        //     html: '<p>Welcome to All Things Airplanes, where you can connect to the broader and local aviation community</p>'
+        // });
         const safeNewUser = {
             ...newUser._doc,
             password: undefined
@@ -75,7 +75,7 @@ export async function POST(req, res) {
         })
         return NextResponse.json(safeNewUser)
     } catch (error) {
-        console.log("Error signing up new user", error.code)
+        console.log("Error signing up new user", error, error.code)
         if (error?.code === 11000) {
             const errorresponse = {
                 success: false,

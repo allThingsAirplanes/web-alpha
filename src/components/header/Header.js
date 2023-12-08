@@ -62,7 +62,7 @@ export default () => {
             )
         } else {
             return (
-                <div>
+                <div className="header-right-nav-inner">
                     <div>
                         <Link href="/signup">
                             Signup
