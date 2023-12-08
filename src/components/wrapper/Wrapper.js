@@ -36,6 +36,8 @@ export default ({ children }) => {
                 }
 
                 setUser(resUser)
+            } else {
+                setUser(false)
             }
         }
 
