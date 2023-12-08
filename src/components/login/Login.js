@@ -36,43 +36,47 @@ export default () => {
         }
     }
     return (
-        <div>
+        <div className="login">
+            <div className="login-header">
             <h1>
                 Login
             </h1>
-            <div>
+            </div>
+            <div className="login-form">
                 <form onSubmit={handleLoginSubmit}>
-                    <div>
-                        <label>
+                    <div className="login-form-section">
+                        <label className="login-form-section-label">
                             Username:
                         </label>
                         <input
+                            className="login-form-section-input"
                             ref={
                                 usernameRef
                             }
                             type="text"
                         />
                     </div>
-                    <div>
-                        <label>
+                    <div className="login-form-section">
+                        <label className="login-form-section-label">
                             Password:
                         </label>
                         <input
+                            className="login-form-section-input"
                             ref={
                                 passwordRef
                             }
                             type="text"
                         />
                     </div>
-                    <div>
-                        <button type="submit">
+                    <div className="login-form-section">
+                        <button className="login-form-section-button" type="submit">
                             Login
                         </button>
                     </div>
                     <div>
                         <p>
-                            Don't have an account?
-                            <span>
+                            Don't have an account? {" "}
+                            <span className="login-form-link-signup">
                                 <Link href="/signup">
                                     Sign Up
                                 </Link>

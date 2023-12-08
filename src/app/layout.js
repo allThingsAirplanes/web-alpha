@@ -23,10 +23,10 @@ export default function RootLayout({ children }) {
         <Wrapper>
           <Header />
           <div className="page">
-            <div className="sidebar">
+            <div className='page-sidebar'>
               <Sidebar />
             </div>
-            <div>
+            <div className='page-content'>
               {children}
             </div>
           </div>

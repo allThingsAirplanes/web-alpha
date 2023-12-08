@@ -72,6 +72,7 @@ export default () => {
             const newClubResJson = await newClubRes.json()
             console.log("newClubResJson", newClubResJson)
             //This is the easy way that we are going to change in the future. 
+            location.reload();
         } catch (error) {
             console.log("Error with handlePostSubmit", error)
         }

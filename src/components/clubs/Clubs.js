@@ -1,9 +1,20 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+
 import {
     useEffect,
-    useState
+    useState,
+    useContext
 } from "react"
+
+import { userContext } from "@/context";
+
 export default () => {
+    const router = useRouter();
+
+    const {user, setUser} = useContext(userContext)
+
     const [clubs, setClubs] = useState(null) //this is the inital value of the state
     //a piece of state is something that you can read and write from
     //whenever you write to a piece of state, the application changes
@@ -15,13 +26,23 @@ export default () => {
                 console.log(data)
                 // show us what data we get back - to the developer console
 
-                setClubs(data)
-                //get the data from the server, then set the clubs profile to whatever the data is
+                if(!data.error_message && !data.error_code) {
+                    setClubs(data)
+                    //get the data from the server, then set the clubs profile to whatever the data is
+                }
             }
             getClubsData()
             //calling the fuction
         }, []
     )
+
+    useEffect(() => {
+        if(user === false) {
+            router.push("/login")
+        }
+    }, [user])
+
+
     const handleJoinClub = async (club) => {
         try {
             const res = await fetch("/api/joinClub", {
@@ -82,20 +103,20 @@ export default () => {
                             </p>
                         </div>
                         <pre>
-                            description: {
+                           {
                                 club.description
                             }
                             {/* A pre preserves the lines that you put in here */}
                         </pre>
                         <div>
                             <p>
-                                num club members:
+                                Club Members:
                                 {
                                     club.members.length
                                 }
                             </p>
                             <div>
-                                <button onClick={() => handleJoinClub(club)}>
+                                <button className="clubs-container-club-join-button" onClick={() => handleJoinClub(club)}>
                                     Join Club
                                 </button>
                             </div>
