@@ -10,7 +10,7 @@ import {
     connectMongo
 } from "@/config/mongo.js"
 
-import Club from "@/models/Club"
+import Project from "@/models/Project"
 //where a GET request retrieves data from a server, a POST request sends data to the server
 
 import { checkSession } from "@/utils/auth"
@@ -34,24 +34,33 @@ export async function POST(req, res) {
         } 
         await connectMongo()
         const randSlugNum = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1)
-        const newClub = await new Club({
+        const newProject = await new Project({
             name: reqjson.name,
-            club_picture: reqjson.club_picture,
+            project_picture: reqjson.project_picture,
             description: reqjson.description,
-            members: [
-                session.data.id
+            collaborators: [
+                {
+                    user: session.data.id,
+                    role: "OWNER",
+                    invite_status: "CONFIRMED"
+                }
             ],
+            project_creator: session.data.id,
+            // members: [
+            //     session.data.id
+            // ],
             type: reqjson.type,
             invite_status: "PUBLIC",
             slug: slugify(`${reqjson.name.toLowerCase()} ${randSlugNum}`)
+            //${} is how you inject js
             //Later on, the invite status will be dynamic, but for now, it will just be all public. 
         }).save()
-        console.log("New Club", newClub)
+        console.log("New Project", newProject)
         // const response = NextResponse.next()
         // response.cookies.set("auth", authToken, {})
-        return NextResponse.json(newClub)
+        return NextResponse.json(newProject)
     } catch (error) {
-        console.log("Error creating new club", error)
+        console.log("Error creating new project", error)
         //11000 is the MongoDB error for when there is a unique issue
         //400 error code means user error - they put in an username that already exists. 500 error code means that the developers did something wrong. 
         const serverErrorResponse = {

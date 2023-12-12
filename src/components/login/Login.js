@@ -65,7 +65,7 @@ export default () => {
                             ref={
                                 passwordRef
                             }
-                            type="text"
+                            type="password"
                         />
                     </div>
                     <div className="login-form-section">

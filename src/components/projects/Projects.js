@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 
 import {
@@ -10,30 +12,28 @@ import {
 
 import { userContext } from "@/context";
 
-import Link from "next/link";
-
 export default () => {
     const router = useRouter();
 
     const { user, setUser } = useContext(userContext)
 
-    const [clubs, setClubs] = useState(null) //this is the inital value of the state
+    const [projects, setProjects] = useState(null) //this is the inital value of the state
     //a piece of state is something that you can read and write from
     //whenever you write to a piece of state, the application changes
     useEffect(
         () => {
-            const getClubsData = async () => {
-                const res = await fetch("/api/getclubs")
+            const getProjectsData = async () => {
+                const res = await fetch("/api/getprojects")
                 const data = await res.json()
                 console.log(data)
                 // show us what data we get back - to the developer console
 
                 if (!data.error_message && !data.error_code) {
-                    setClubs(data)
-                    //get the data from the server, then set the clubs profile to whatever the data is
+                    setProjects(data)
+                    //get the data from the server, then set the projects profile to whatever the data is
                 }
             }
-            getClubsData()
+            getProjectsData()
             //calling the fuction
         }, []
     )
@@ -45,85 +45,85 @@ export default () => {
     }, [user])
 
 
-    const handleJoinClub = async (club) => {
+    const handleJoinProject = async (project) => {
         try {
-            const res = await fetch("/api/joinClub", {
+            const res = await fetch("/api/joinProject", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
                 },
-                body: JSON.stringify(club)
+                body: JSON.stringify(project)
             })
             const resJson = await res.json()
             console.log("resJson", resJson)
-            alert("Successfully Joined Club")
+            alert("Successfully Joined Project")
         } catch (error) {
-            console.log("Error with joining club", error)
-            alert("error joining club")
+            console.log("Error with joining project", error)
+            alert("error joining project")
         }
     }
-    const renderClubMembers = (members) => {
-        return members.map((member) => {
+    const renderProjeCollaborators = (collaborators) => {
+        return collaborators.map((collaborator) => {
             return (
                 <div>
                     <p>
-                        member username: {
-                            member.username
+                        collaborators username: {
+                            collaborator.username
                         }
                     </p>
                     <p>
-                        member id: {
-                            member.id
+                        collaborators id: {
+                            collaborator.id
                         }
                     </p>
                     <img src={
-                        member.picture
+                        collaborator.picture
                     } />
                 </div>
             )
         })
     }
-    const renderClubs = () => {
+    const renderProjects = () => {
         if (
-            clubs
+            projects
         ) {
-            //clubs is an array of objects, each object represents one single club 
+            //projects is an array of objects, each object represents one single project 
             //the map method loops over an array and returns html for every single item in that array
-            //club singular represents every single club, while clubs is the array of club
-            return clubs.map((club) => {
+            //project singular represents every single project, while projects is the array of project
+            return projects.map((project) => {
                 return (
-                    <div className="clubs-container-club">
-                        <div className="clubs-container-club-media">
-                            <img src={club.club_picture} />
+                    <div className="projects-container-project">
+                        <div className="projects-container-project-media">
+                            <img src={project.project_picture} />
                         </div>
-                        <div className="clubs-container-club-name">
+                        <div className="projects-container-project-name">
                             <p>
                                 {
-                                    club.name
+                                    project.name
                                 }
                                 {/* anything between curly braces is javascipt that gets filled in to the html */}
                             </p>
                         </div>
                         <pre>
                             {
-                                club.description
+                                project.description
                             }
                             {/* A pre preserves the lines that you put in here */}
                         </pre>
                         <div>
                             <p>
-                                Club Members:
+                                Project collaborators:
                                 {
-                                    club.members.length
+                                    project.collaborators.length
                                 }
                             </p>
                             <div>
-                                <button className="clubs-container-club-join-button" onClick={() => handleJoinClub(club)}>
-                                    Join Club
+                                <button className="projects-container-project-join-button" onClick={() => handleJoinProject(project)}>
+                                    Join Project
                                 </button>
-                                <Link href={`/clubs/${club.slug}`}>
-                                    <button className="clubs-container-club-join-button">
-                                        View Club
+                                <Link href={`/projects/${project.slug}`}>
+                                    <button className="projects-container-project-join-button" >
+                                        View Project
                                     </button>
                                 </Link>
                             </div>
@@ -134,15 +134,15 @@ export default () => {
         }
     }
     return (
-        <div className="clubs">
-            <div className="clubs-header">
+        <div className="projects">
+            <div className="projects-header">
                 <h1>
-                    Clubs
+                    Projects
                 </h1>
             </div>
-            <div className="clubs-container">
+            <div className="projects-container">
                 {
-                    renderClubs()
+                    renderProjects()
                 }
             </div>
         </div>

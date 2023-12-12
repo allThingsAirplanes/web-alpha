@@ -45,5 +45,55 @@ const postSchema = new mongoose.Schema ({
 }, {
     timestamps: true
 })
-export default mongoose.models.Post ?? mongoose.model ("Post", postSchema)
+
+const collaboratorSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    role: {
+        type: mongoose.Schema.Types.String
+    },
+    invite_status: {
+        type: mongoose.Schema.Types.String
+    }
+}, {
+    timestamps: true
+})
+
+const projectSchema = new mongoose.Schema({
+    //A slug is a string that identifies a piece of content in a human readable way
+    //Imagine a project called hobbiest airplane builder. This project, when we create it in the database,
+    //will have an unique idea. However, the unique id is not human redable. 
+    //As we want a better UI and search engine experience, by inclduing slugs in our URLs. 
+    
+    slug: {
+        type: mongoose.Schema.Types.String,
+        unique: true
+    },
+    name: {
+        type: mongoose.Schema.Types.String,
+        unique: true
+        //make sure to reconsider whether unique is the best option.  
+    },
+    project_picture: {
+        type: mongoose.Schema.Types.String
+    },
+    description: {
+        type: mongoose.Schema.Types.String
+    },
+    collaborators: [
+        collaboratorSchema
+    ],
+    project_creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    posts: [
+        postSchema
+    ]
+}, {
+    timestamps: true
+})
+export default mongoose.models.Project ?? mongoose.model("Project", projectSchema)
 //This is saying that if we were to have a model in the catch, then we are going to use the catch model. Otherwise, we will use this newly created user model. 

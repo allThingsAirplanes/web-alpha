@@ -3,7 +3,7 @@ import {
     useRef,
     useState
 } from "react"
-export default () => {
+export default (props) => {
     const mediaRef = useRef(null)
     const contentRef = useRef(null)
     const [showPostForm, setShowPostForm] = useState(false)
@@ -47,12 +47,18 @@ export default () => {
                 content: content,
                 media_url: mediaUploadURL
             }
-            const newPostRes = await fetch("/api/createPost", {
+            const submitData = {
+                club: props.club, 
+                post: newPostData
+            }
+            const newPostRes = await fetch("/api/createClubPost", {
                 method: "POST",
                 headers: {
                     "content-type": "applications/json"
                 },
-                body: JSON.stringify(newPostData)
+                body: JSON.stringify(submitData)
+                //we also need to send information about adding posts to when we call the API endpoint, that is
+                //why we are switching from newPostData to submitData.  
             })
             const newPostResJson = await newPostRes.json()
             console.log("newPostResJson", newPostResJson)

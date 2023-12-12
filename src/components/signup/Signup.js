@@ -88,7 +88,7 @@ export default () => {
                             ref={
                                 passwordRef
                             }
-                            type="text"
+                            type="password"
                             placeholder = "Enter Your Password" 
                         />
                         {/* The light gray letters in the textbox */}
