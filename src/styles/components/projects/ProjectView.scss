@@ -1,11 +1,73 @@
-.clubs {
+.project {
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    padding: 2.5rem 1.25vw;
+
     &-header {
         font-size: 2.5rem;
         margin-bottom: 2.5rem;
+    }
+
+    &-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        margin-bottom: 2.5rem;
+
+        &-header {
+            font-size: 2.5rem;
+
+            margin-bottom: 1.5rem;
+
+            padding-bottom: 0.25rem;
+            border-bottom: 4px solid lightblue;
+        }
+
+        &-content {
+            &-image {
+                width: 33vw;
+                height: 35vw;
+
+                border-radius: 1rem;
+                overflow: hidden;
+
+                margin-bottom: 1.25rem;
+
+                & img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            &-details {
+                text-align: center;
+
+                background-color: white;
+
+                border-radius: 1rem;
+
+                padding: 1.25rem;
+
+                &-description {
+                    margin-bottom: 1.5rem;
+                }
+
+                &-timestamps {
+                    &-item {
+                        margin-bottom: 0.75rem;
+                        &-span {
+                            border: 2px solid var(--color_grey_light);
+                            padding: 0.125rem 0.75rem;
+                            border-radius: 100vmax;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &-container {
@@ -80,6 +142,7 @@
             &-buttons {
                 display: flex;
                 justify-content: space-between;
+                gap: 2.5rem;
                 padding: 1rem;
                 border-top: 1px solid var(--color_grey_light);
             }
@@ -94,7 +157,6 @@
                     cursor: pointer;
 
                     margin-top: 1rem;
-                    margin-left: 0.5rem;
                 }
             }
         }

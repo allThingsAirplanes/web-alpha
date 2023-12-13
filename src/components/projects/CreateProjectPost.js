@@ -88,7 +88,7 @@ export default (props) => {
                 <form onSubmit={handlePostSubmit}>
                     <div>
                         <label>
-                            New Post
+                            New Project Post
                         </label>
                         <textarea className="upload-post-form-textarea"
                             onChange={

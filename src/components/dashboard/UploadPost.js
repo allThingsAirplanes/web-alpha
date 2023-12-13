@@ -3,12 +3,24 @@ import {
     useRef,
     useState
 } from "react"
+
 export default () => {
+    const categoriesMap = {
+        commercial_aviation: "COMMERCIAL_AVIATION",
+        military_aviation: "MILITARY_AVIATION",
+        drones: "DRONES_AERIAL_PHOTOGRAPHY",
+        homebuilding: "HOMEBUILDING",
+        aerospace: "AEROSPACE",
+        other: "OTHER"
+    }
+
     const mediaRef = useRef(null)
     const contentRef = useRef(null)
     const [showPostForm, setShowPostForm] = useState(false)
     const [mediaFile, setMediaFile] = useState(null)
     const [content, setContent] = useState("")
+    const [category, setCategory] = useState(Object.values(categoriesMap)[0])
+    
     const handleShowPostForm = () => {
         setShowPostForm(!showPostForm)
         //this is a toggle - if it is true, we set it to false, if its false, we set it to true
@@ -20,6 +32,11 @@ export default () => {
     const handleContentChange = (event) => {
         setContent(event.target.value)
     }
+
+    const handleCategoryChange = (event) => {
+        setCategory(event.target.value)
+    }
+
     const handlePostSubmit = async (event) => {
         try {
             event.preventDefault()
@@ -45,7 +62,8 @@ export default () => {
             const mediaUploadURL = resJson.url
             const newPostData = {
                 content: content,
-                media_url: mediaUploadURL
+                media_url: mediaUploadURL,
+                category: category
             }
             const newPostRes = await fetch("/api/createPost", {
                 method: "POST",
@@ -117,6 +135,19 @@ export default () => {
                         />
                     </div>
                     {renderPreviewImage()}
+                    <div className="upload-post-form-section">
+                        <label className="upload-post-form-label">
+                            Category
+                        </label>
+                        <select className="upload-post-form-select" onChange={handleCategoryChange}>
+                            <option value={categoriesMap.commercial_aviation}>Commerical Aviation</option>
+                            <option value={categoriesMap.military_aviation}>Military Aviation</option>
+                            <option value={categoriesMap.drones}>Drones / Aerial Photography</option>
+                            <option value={categoriesMap.homebuilding}>Homebuilding</option>
+                            <option value={categoriesMap.aerospace}>Aerospace Engineering</option>
+                            <option value={categoriesMap.other}>Other</option>
+                        </select>
+                    </div>
                     <div>
                         <button className="upload-post-form-button" type="submit">
                             Create New Post

@@ -14,6 +14,8 @@ import Post from "@/models/Post"
 
 import { checkSession } from "@/utils/auth"
 
+import User from "@/models/User"
+
 export const dynamic = "force-dynamic"
 
 export const revalidate = 0
@@ -27,20 +29,26 @@ export async function POST(req, res) {
                 error_message: "Could not authenticate",
                 data: null
             })
-        } 
-        const reqjson=await req.json()
+        }
+        const reqjson = await req.json()
         await connectMongo()
-        const newPost = await new Post({
-            content: reqjson.content,
-            media_url: reqjson.media_url,
-            category: reqjson.category,
-            author: session.data.id
-            //only store the hash!!!!!!!!!!!!!!!!!!!!
-        }).save()
-        console.log("New Post", newPost)
+
+        const userNewInterests = reqjson.interests.map((interest) => {
+            return {
+                name: interest
+            }
+        })
+
+        const updatedUser = await User.findOneAndUpdate({
+            _id: session.data.id
+        }, {
+            interests: userNewInterests
+        }
+        )
+        console.log("Updated User", updatedUser)
         // const response = NextResponse.next()
         // response.cookies.set("auth", authToken, {})
-        return NextResponse.json(newPost)
+        return NextResponse.json(updatedUser)
     } catch (error) {
         console.log("Error creating new post", error)
         //11000 is the MongoDB error for when there is a unique issue
@@ -49,7 +57,7 @@ export async function POST(req, res) {
             success: false,
             error_message: "Something went wrong",
             error_code: 500
-        } 
-        return NextResponse.json(serverErrorResponse, {status: 500})
+        }
+        return NextResponse.json(serverErrorResponse, { status: 500 })
     }
 }
