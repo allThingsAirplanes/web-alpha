@@ -104,7 +104,7 @@ export default () => {
                             <h4>Homebuilding</h4>
                         </header>
                         <div className="onboarding-interests-grid-item-image">
-                            <img src="https://images.unsplash.com/photo-1508444845599-5c89863b1c44?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                            <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=3094&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
                         </div>
                     </div>
                     <div className={`onboarding-interests-grid-item ${itemsSelected.interests.includes(interestsAndConnectionsMap.aerospace) ? "onboarding-interests-grid-item-selected" : ""}`} onClick={() => handleAddItem("interests", interestsAndConnectionsMap.aerospace, 4)}>
@@ -112,7 +112,7 @@ export default () => {
                             <h4>Aerospace Engineering</h4>
                         </header>
                         <div className="onboarding-interests-grid-item-image">
-                            <img src="https://images.unsplash.com/photo-1508444845599-5c89863b1c44?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                            <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=2972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
                         </div>
                     </div>
                     <div className={`onboarding-interests-grid-item ${itemsSelected.interests.includes(interestsAndConnectionsMap.other) ? "onboarding-interests-grid-item-selected" : ""}`} onClick={() => handleAddItem("interests", interestsAndConnectionsMap.other, 5)}>
@@ -120,7 +120,7 @@ export default () => {
                             <h4>Other</h4>
                         </header>
                         <div className="onboarding-interests-grid-item-image">
-                            <img src="https://images.unsplash.com/photo-1508444845599-5c89863b1c44?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                            <img src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
                         </div>
                     </div>
                 </div>
