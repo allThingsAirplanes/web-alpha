@@ -5,6 +5,8 @@ import CreateClubPost from "./CreateClubPost.js"
 
 import Link from "next/link"
 
+import { formatDate } from "@/utils/dates.js"
+
 export default (props) => {
     //props are a way to pass data between components
     //we have used context, which does it with the whole application, but props does it in a much more direct way
@@ -27,33 +29,33 @@ export default (props) => {
     const renderClub = () => {
         if (clubDetails) {
             return (
-                <div>
-                    <div>
+                <div className="club-info">
+                    <div className="club-info-header">
                         <h1>
                             {
                                 clubDetails.name
                             }
                         </h1>
                     </div>
-                    <div>
-                        <div>
-                            <img src={clubDetails.club_picture}/>
+                    <div className="club-info-content">
+                        <div className="club-info-content-image">
+                            <img src={clubDetails.club_picture} />
                         </div>
-                    </div>
-                    <div>
-                        {
-                            clubDetails.description
-                        }
-                    </div>
-                    <div>
-                       created {
-                            clubDetails.createdAt
-                        }
-                    </div>
-                    <div>
-                        Last updated {
-                            clubDetails.updatedAt
-                        }
+                        <div className="club-info-content-details">
+                            <div className="club-info-content-details-description">
+                                {
+                                    clubDetails.description
+                                }
+                            </div>
+                            <div className="club-info-content-details-timestamps">
+                                <div className="club-info-content-details-timestamps-item">
+                                    Club Created <span className="club-info-content-details-timestamps-item-span">{formatDate(clubDetails.createdAt)}</span>
+                                </div>
+                                <div className="club-info-content-details-timestamps-item">
+                                    Last Updated <span className="club-info-content-details-timestamps-item-span">{formatDate(clubDetails.updatedAt)}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )
@@ -102,7 +104,7 @@ export default (props) => {
 
     const renderPosts = () => {
         if (
-            clubDetails.posts
+            clubDetails?.posts
         ) {
             return (
                 <>

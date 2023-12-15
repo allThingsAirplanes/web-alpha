@@ -43,9 +43,14 @@ export async function POST(req, res) {
         }, {
             $push: {
                 posts: {
-                    content: reqjson.post.content,
-                    media_url: reqjson.post.media_url,
-                    author: session.data.id
+                    $each: [
+                        {
+                            content: reqjson.post.content,
+                            media_url: reqjson.post.media_url,
+                            author: session.data.id
+                        }
+                    ],
+                    $position: 0
                 }
             }
         }

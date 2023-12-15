@@ -6,7 +6,10 @@ export default () => {
     const interestsAndConnectionsMap = {
         commercial_aviation: "COMMERCIAL_AVIATION",
         military_aviation: "MILITARY_AVIATION",
-        drones: "DRONES",
+        drones: "DRONES_AERIAL_PHOTOGRAPHY",
+        homebuilding: "HOMEBUILDING",
+        aerospace: "AEROSPACE",
+        other: "OTHER",
 
         friends: "FRIENDS",
         clubs: "CLUBS",
@@ -20,7 +23,25 @@ export default () => {
 
     const [itemsSelected, setItemsSelected] = useState(initialItemsSelectedState)
 
-    const handleExitOnboarding = () => {
+    const handleExitOnboarding = async () => {
+        console.log("Items Selected: ", itemsSelected)
+
+        const submitData = {
+            interests: itemsSelected.interests
+        }
+
+        const res = await fetch("/api/userCompleteOnboarding", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(submitData)
+        })
+
+        const resJSON = await res.json();
+
+        console.log(resJSON)
+
         location.href = "/dashboard"
     }
 
@@ -78,9 +99,33 @@ export default () => {
                             <img src="https://images.unsplash.com/photo-1508444845599-5c89863b1c44?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
                         </div>
                     </div>
+                    <div className={`onboarding-interests-grid-item ${itemsSelected.interests.includes(interestsAndConnectionsMap.homebuilding) ? "onboarding-interests-grid-item-selected" : ""}`} onClick={() => handleAddItem("interests", interestsAndConnectionsMap.homebuilding, 3)}>
+                        <header className="onboarding-interests-grid-item-header">
+                            <h4>Homebuilding</h4>
+                        </header>
+                        <div className="onboarding-interests-grid-item-image">
+                            <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=3094&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                        </div>
+                    </div>
+                    <div className={`onboarding-interests-grid-item ${itemsSelected.interests.includes(interestsAndConnectionsMap.aerospace) ? "onboarding-interests-grid-item-selected" : ""}`} onClick={() => handleAddItem("interests", interestsAndConnectionsMap.aerospace, 4)}>
+                        <header className="onboarding-interests-grid-item-header">
+                            <h4>Aerospace Engineering</h4>
+                        </header>
+                        <div className="onboarding-interests-grid-item-image">
+                            <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=2972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                        </div>
+                    </div>
+                    <div className={`onboarding-interests-grid-item ${itemsSelected.interests.includes(interestsAndConnectionsMap.other) ? "onboarding-interests-grid-item-selected" : ""}`} onClick={() => handleAddItem("interests", interestsAndConnectionsMap.other, 5)}>
+                        <header className="onboarding-interests-grid-item-header">
+                            <h4>Other</h4>
+                        </header>
+                        <div className="onboarding-interests-grid-item-image">
+                            <img src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="onboarding-connections">
+            {/* <div className="onboarding-connections">
                 <header className="onboarding-connections-header">
                     <h2>Who Do You Want To Connect With Most?</h2>
                 </header>
@@ -110,7 +155,7 @@ export default () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="onboarding-actions">
                 <div>
                     <button onClick={handleExitOnboarding} className="onboarding-actions-button">Let's Go!</button>

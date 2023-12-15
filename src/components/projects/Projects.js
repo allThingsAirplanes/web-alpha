@@ -82,7 +82,7 @@ export default () => {
                 </div>
             )
         })
-    }
+    } 
     const renderProjects = () => {
         if (
             projects

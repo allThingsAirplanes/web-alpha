@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 
 import CreateProjectPost from "./CreateProjectPost"
 
+import { formatDate } from "@/utils/dates"
+
 export default (props) => {
     //props are a way to pass data between components
     //we have used context, which does it with the whole application, but props does it in a much more direct way
@@ -25,33 +27,33 @@ export default (props) => {
     const renderProject = () => {
         if (projectDetails) {
             return (
-                <div>
-                    <div>
+                <div className="project-info">
+                    <div className="project-info-header">
                         <h1>
                             {
                                 projectDetails.name
                             }
                         </h1>
                     </div>
-                    <div>
-                        <div>
-                            <img src={projectDetails.project_picture}/>
+                    <div className="project-info-content">
+                        <div className="project-info-content-image">
+                            <img src={projectDetails.project_picture} />
                         </div>
-                    </div>
-                    <div>
-                        {
-                            projectDetails.description
-                        }
-                    </div>
-                    <div>
-                       created {
-                            projectDetails.createdAt
-                        }
-                    </div>
-                    <div>
-                        Last updated {
-                            projectDetails.updatedAt
-                        }
+                        <div className="project-info-content-details">
+                            <div className="project-info-content-details-description">
+                                {
+                                    projectDetails.description
+                                }
+                            </div>
+                            <div className="project-info-content-details-timestamps">
+                                <div className="project-info-content-details-timestamps-item">
+                                    Project Created <span className="project-info-content-details-timestamps-item-span">{formatDate(projectDetails.createdAt)}</span>
+                                </div>
+                                <div className="project-info-content-details-timestamps-item">
+                                    Last Updated <span className="project-info-content-details-timestamps-item-span">{formatDate(projectDetails.updatedAt)}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )
@@ -100,7 +102,7 @@ export default (props) => {
 
     const renderPosts = () => {
         if (
-            projectDetails.posts
+            projectDetails?.posts
         ) {
             return (
                 <>
@@ -132,7 +134,7 @@ export default (props) => {
                     </h1>
                 </div>
                 <div>
-                    <CreateProjectPost project={projectDetails}/>
+                    <CreateProjectPost project={projectDetails} />
                 </div>
                 <div className="project-posts-container">
                     {
