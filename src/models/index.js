@@ -6,9 +6,12 @@ import Club from "./Club";
 
 import Project from "./Project";
 
+import Event from "./Event";
+
 export default {
     User,
     Post,
     Club,
-    Project
+    Project,
+    Event
 }

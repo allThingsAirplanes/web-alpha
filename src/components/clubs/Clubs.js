@@ -94,7 +94,8 @@ export default () => {
                 return (
                     <div className="clubs-container-club">
                         <div className="clubs-container-club-media">
-                            <img src={club.club_picture} />
+                            <img src={club.club_picture || 
+                            "https://images.unsplash.com/photo-1585347890782-6e1ddd365053?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} />
                         </div>
                         <div className="clubs-container-club-name">
                             <p>

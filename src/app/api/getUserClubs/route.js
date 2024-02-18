@@ -26,7 +26,7 @@ export async function GET() {
 
         ) 
         const clubs = await Club.find({
-            members: session.data.find
+            members: session.data.id
             //this should only get the clubs where the user is the member
         }) 
         const resData = clubs 

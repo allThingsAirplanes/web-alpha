@@ -2,6 +2,10 @@
 
 import { useRouter } from "next/navigation";
 
+import Link from "next/link";
+
+import Post from "./Post";
+
 import {
     useEffect,
     useState,
@@ -13,11 +17,12 @@ import { userContext } from "@/context";
 export default () => {
     const router = useRouter();
 
-    const {user, setUser} = useContext(userContext);
+    const { user, setUser } = useContext(userContext);
 
     const [posts, setPosts] = useState([]) //this is the inital value of the state
     //a piece of state is something that you can read and write from
     //whenever you write to a piece of state, the application changes
+    const [showPostComments, setShowPostComments] = useState([])
     useEffect(
         () => {
             const getPostsData = async () => {
@@ -27,7 +32,7 @@ export default () => {
                 // show us what data we get back - to the developer console
 
                 if (!data.error_message && !data.error_code) {
-                    if(data.posts) {
+                    if (data.posts) {
                         setPosts(data.posts)
                     }
                     //get the data from the server, then set the posts profile to whatever the data is
@@ -40,46 +45,16 @@ export default () => {
     )
 
     useEffect(() => {
-        if(user === false) {
+        if (user === false) {
             router.push("/login")
         }
     }, [user])
 
     const renderFriendsAndClubPosts = (posts) => {
         if (posts) {
-            return posts.map((post) => {
+            return posts.map((post, post_index) => {
                 return (
-                    <div className="posts-container-friends-post" key={post._id}>
-                        <div className="posts-container-friends-post-author">
-                            <div className="posts-container-friends-post-author-image">
-                                <img src={post?.author?.picture || "https://images.unsplash.com/photo-1525406820302-88d59afa0be7?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} />
-                            </div>
-                            <div className="posts-container-friends-post-author-username">
-                                <p>
-                                    {
-                                        post?.author?.username
-                                        //get back
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                        <div className="posts-container-friends-post-content">
-                            <pre>
-                                {
-                                    post.content || "No Post Content"
-                                }
-                            </pre>
-                        </div>
-                        <div className="posts-container-friends-post-media">
-                            <img src={post.media_url} />
-                        </div>
-                        <div className="posts-container-friends-post-buttons">
-                            <button>Like</button>
-                            <button>Comment</button>
-                            <button>Share</button>
-                            <p>Comming Soon!</p>
-                        </div>
-                    </div>
+                    <Post post={post} />
                 )
             })
         }

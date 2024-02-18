@@ -20,6 +20,25 @@ const commentSchema = new mongoose.Schema({
 //In a relational database(like SQL), you would have to create a table and everything,
 //but with Mongo, it is very simple and straightforwards. 
 
+const announcementSchema = new mongoose.Schema ({
+    content: {
+        type: mongoose.Schema.Types.String
+    },
+    media_url: {
+        type: mongoose.Schema.Types.String
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    importance: {
+        type: mongoose.Schema.Types.String,
+        default: "INFO"
+    }
+},{
+    timestamps: true
+})
+
 const postSchema = new mongoose.Schema ({
     content: {
         type: mongoose.Schema.Types.String
@@ -76,7 +95,10 @@ const clubSchema = new mongoose.Schema({
     },
     posts: [
         postSchema
-    ]
+    ], 
+    announcements: [
+        announcementSchema
+    ],
 }, {
     timestamps: true
 })

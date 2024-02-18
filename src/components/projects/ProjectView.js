@@ -1,11 +1,18 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 
 import CreateProjectPost from "./CreateProjectPost"
 
+import Link from "next/link"
+
 import { formatDate } from "@/utils/dates"
 
+import Project from "./Project"
+
+import { userContext } from "@/context"
+
 export default (props) => {
+    const { user } = useContext(userContext)
     //props are a way to pass data between components
     //we have used context, which does it with the whole application, but props does it in a much more direct way
     //so if you just want to share data from one compoenent to another, props is a more direct way to do it.
@@ -24,6 +31,26 @@ export default (props) => {
         }
         getProject()
     }, [])
+    const checkUserCollaborator = () => {
+        const foundUser = projectDetails?.collaborators?.find((collaborator) => {
+            return collaborator.user._id === user?._id
+        })
+        return foundUser
+    }
+    const renderProjectCollaborators = () => {
+        console.log("projectDetails", projectDetails.collaborators)
+        if (projectDetails.collaborators) {
+            return projectDetails?.collaborators?.map((collaborator) => {
+                return (
+                    <div>
+                        {
+                            collaborator.user.username
+                        }
+                    </div>
+                )
+            })
+        }
+    }
     const renderProject = () => {
         if (projectDetails) {
             return (
@@ -37,7 +64,7 @@ export default (props) => {
                     </div>
                     <div className="project-info-content">
                         <div className="project-info-content-image">
-                            <img src={projectDetails.project_picture} />
+                            <img src={projectDetails.project_picture || "https://images.unsplash.com/photo-1585347890782-6e1ddd365053?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} />
                         </div>
                         <div className="project-info-content-details">
                             <div className="project-info-content-details-description">
@@ -46,6 +73,28 @@ export default (props) => {
                                 }
                             </div>
                             <div className="project-info-content-details-timestamps">
+                                <div className="project-info-content-details-timestamps-creator">
+                                    <p>
+                                        Creator:
+                                        <span>
+                                            {
+                                                projectDetails?.project_creator?.username
+                                            }
+                                        </span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h4>
+                                            Collaborators:
+                                        </h4>
+                                    </div>
+                                    <div>
+                                        {
+                                            renderProjectCollaborators()
+                                        }
+                                    </div>
+                                </div>
                                 <div className="project-info-content-details-timestamps-item">
                                     Project Created <span className="project-info-content-details-timestamps-item-span">{formatDate(projectDetails.createdAt)}</span>
                                 </div>
@@ -64,37 +113,7 @@ export default (props) => {
         if (posts) {
             return posts.map((post) => {
                 return (
-                    <div className="posts-container-friends-post">
-                        <div className="posts-container-friends-post-author">
-                            <div className="posts-container-friends-post-author-image">
-                                <img src={post?.author?.picture || "https://images.unsplash.com/photo-1525406820302-88d59afa0be7?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} />
-                            </div>
-                            <div className="posts-container-friends-post-author-username">
-                                <p>
-                                    {
-                                        post?.author?.username
-                                        //get back
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                        <div className="posts-container-friends-post-content">
-                            <pre>
-                                {
-                                    post.content || "No Post Content"
-                                }
-                            </pre>
-                        </div>
-                        <div className="posts-container-friends-post-media">
-                            <img src={post.media_url} />
-                        </div>
-                        <div className="posts-container-friends-post-buttons">
-                            <button>Like</button>
-                            <button>Comment</button>
-                            <button>Share</button>
-                            <p>Comming Soon!</p>
-                        </div>
-                    </div>
+                    <Project post={post} project={projectDetails} />
                 )
             })
         }
@@ -109,7 +128,7 @@ export default (props) => {
                     <div className="projects-posts-container">
                         <div className="projects-posts-container-header">
                             <h3>
-                                Project Posts
+                                Project Log Entries
                             </h3>
                         </div>
                         {
@@ -130,12 +149,15 @@ export default (props) => {
             <div className="project-posts">
                 <div className="project-posts-header">
                     <h1>
-                        Posts
+                        Log
                     </h1>
                 </div>
-                <div>
-                    <CreateProjectPost project={projectDetails} />
-                </div>
+                {
+                    checkUserCollaborator() &&
+                    <div>
+                        <CreateProjectPost project={projectDetails} />
+                    </div>
+                }
                 <div className="project-posts-container">
                     {
                         renderPosts()

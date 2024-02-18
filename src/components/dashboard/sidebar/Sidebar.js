@@ -1,12 +1,239 @@
 "use client";
 
 import Link from "next/link"
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { userContext } from "@/context";
 
 export default () => {
-    const { user, setUser } = useContext(userContext);
+    const { user, setUser } = useContext(userContext)
+    const [showAddNewShortcut, setShowAddNewShortcut] = useState(false)
+    const [avaliableShortcuts, setAvaliableShortcuts] = useState([])
+    const [checkedShortcuts, setCheckedShortcuts] = useState({
+        clubs: [],
+        events: [],
+        projects: []
+    })
+    const handleRemoveUserShortcut = async (shortcut) => {
+        try {
+            const submitData = {
+                shortcut
+            }
+            const res = await fetch ("/api/deleteUserShortcut", {
+                method: "DELETE",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(submitData)
+            })
+            const resJson = await res.json ()
+            console.log(resJson)
+            location.reload()
+        } catch (error) {
+            console.log("Error removing user", error)
+        }
+    }
+    const renderUserShortcutsItems = () => {
+        return user?.dashboard_shortcuts?.map((shortcut) => {
+            return (
+                <div className="sidebar-shortcuts-items-item-container">
+                    <Link className="sidebar-shortcuts-items-item" href={shortcut.link}>
+                        <div className="sidebar-shortcuts-items-item-image">
+                            <img src={shortcut.picture} />
+                        </div>
+                        <div className="sidebar-shortcuts-items-item-name">
+                            <p>
+                                {
+                                    shortcut.name
+                                }
+                            </p>
+                        </div>
+                    </Link>
+                    <div onClick={() => handleRemoveUserShortcut(shortcut)} className="sidebar-shortcuts-items-item-remove">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+
+                    </div>
+                </div>
+            )
+        })
+    }
+    const handleAddNewShortcuts = async () => {
+        try {
+            const submitData = {
+                clubs: checkedShortcuts.clubs.map((clubID) => {
+                    return avaliableShortcuts.clubs.find((foundClub) => {
+                        return foundClub._id === clubID
+                    })
+                }),
+                events: checkedShortcuts.events.map((eventID) => {
+                    return avaliableShortcuts.events.find((foundEvent) => {
+                        return foundEvent._id === eventID
+                    })
+
+                }),
+                projects: checkedShortcuts.projects.map((projectID) => {
+                    return avaliableShortcuts.projects.find((foundProject) => {
+                        return foundProject._id === projectID
+                    })
+                })
+            }
+            console.log(submitData)
+            const res = await fetch("/api/addUserShortcuts", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(submitData)
+            })
+            const resJson = await res.json()
+            console.log(resJson)
+            location.reload()
+        } catch (error) {
+            console.log("Error with adding new shortcut", error)
+        }
+    }
+    const handleAddCheckedShortcut = (section, id) => {
+        if (checkedShortcuts[section].includes(id)) {
+            setCheckedShortcuts({
+                ...checkedShortcuts,
+                [section]: checkedShortcuts[section].filter((item) => {
+                    return item !== id
+                })
+            })
+            return
+        }
+        setCheckedShortcuts({
+            ...checkedShortcuts,
+            [section]: [...checkedShortcuts[section], id]
+            //making a list of all the checked items here
+        })
+    }
+    const renderUserShortcutSection = (sectionType) => {
+        switch (sectionType) {
+            case "clubs": {
+                return avaliableShortcuts?.clubs?.map((club, i) => {
+                    return (
+                        <div className="sidebar-modal-inner-options-section-items-item">
+                            <div className="sidebar-modal-inner-options-section-items-item-left">
+                                <div className="sidebar-modal-inner-options-section-items-item-left-image">
+                                    <img src={club.club_picture} />
+                                </div>
+                                <div className="sidebar-modal-inner-options-section-items-item-left-name">
+                                    <p>
+                                        {
+                                            club.name
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="sidebar-modal-inner-options-section-items-item-check">
+                                <div className="sidebar-modal-inner-options-section-items-item-check-icon" onClick={() => handleAddCheckedShortcut("clubs", club._id)}>
+                                    {
+                                        checkedShortcuts.clubs.includes(club._id) ?
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="var(--color_btn_blue)" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            :
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <circle strokeLinecap="round" strokeLinejoin="round" cx="12" cy="12" r="6" />
+                                            </svg>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            case "events": {
+                return avaliableShortcuts?.events?.map((event, i) => {
+                    return (
+                        <div className="sidebar-modal-inner-options-section-items-item">
+                            <div className="sidebar-modal-inner-options-section-items-item-left">
+                                <div className="sidebar-modal-inner-options-section-items-item-left-image">
+                                    <img src={event.event_banner_picture} />
+                                </div>
+                                <div className="sidebar-modal-inner-options-section-items-item-left-name">
+                                    <p>
+                                        {
+                                            event.name
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="sidebar-modal-inner-options-section-items-item-check">
+                                <div className="sidebar-modal-inner-options-section-items-item-check-icon" onClick={() => handleAddCheckedShortcut("events", event._id)}>
+                                    {
+                                        checkedShortcuts.events.includes(event._id) ?
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="var(--color_btn_blue)" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            :
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <circle strokeLinecap="round" strokeLinejoin="round" cx="12" cy="12" r="6" />
+                                            </svg>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            case "projects": {
+                return avaliableShortcuts?.projects?.map((project, i) => {
+                    return (
+                        <div className="sidebar-modal-inner-options-section-items-item">
+                            <div className="sidebar-modal-inner-options-section-items-item-left">
+                                <div className="sidebar-modal-inner-options-section-items-item-left-image">
+                                    <img src={project.project_picture} />
+                                </div>
+                                <div className="sidebar-modal-inner-options-section-items-item-left-name">
+                                    <p>
+                                        {
+                                            project.name
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="sidebar-modal-inner-options-section-items-item-check">
+                                <div className="sidebar-modal-inner-options-section-items-item-check-icon" onClick={() => handleAddCheckedShortcut("projects", project._id)}>
+                                    {
+                                        checkedShortcuts.projects.includes(project._id) ?
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="var(--color_btn_blue)" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            :
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <circle strokeLinecap="round" strokeLinejoin="round" cx="12" cy="12" r="6" />
+                                            </svg>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+        }
+    }
+
+    const handleShowAddNewShortcut = async () => {
+        setShowAddNewShortcut(true)
+        try {
+            const res = await fetch("/api/getUserAvaliableShortcuts")
+            const resJson = await res.json()
+            console.log(resJson)
+            setAvaliableShortcuts(resJson)
+        } catch (error) {
+            console.log("Error with getting user shortcuts", error)
+        }
+    }
+    const handleCloseAddNewShortcut = () => {
+        setShowAddNewShortcut(false)
+    }
 
     if (user) {
         return (
@@ -95,7 +322,89 @@ export default () => {
                             My Shortcuts
                         </h4>
                     </div>
+                    <div className="sidebar-shortcuts-items">
+                        {
+                            renderUserShortcutsItems()
+                        }
+                    </div>
+                    <div className="sidebar-shortcuts-add">
+                        <button onClick={handleShowAddNewShortcut} className="sidebar-shortcuts-add-button">
+                            Add New
+                        </button>
+                    </div>
                 </div>
+                {
+                    showAddNewShortcut &&
+                    <div className="sidebar-modal">
+                        <div className="sidebar-modal-inner">
+                            <div className="sidebar-modal-inner-header">
+                                <div className="side-modal-inner-header-title">
+                                    <h3>
+                                        Add New Shortcut
+                                    </h3>
+                                </div>
+                                <div className="sidebar-modal-inner-header-close">
+                                    <div onClick={handleCloseAddNewShortcut} className="sidebar-modal-inner-header-close-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="sidebar-modal-inner-options">
+                                <div className="sidebar-modal-inner-options-section">
+                                    <div className="sidebar-modal-inner-options-section-header">
+                                        <h4>
+                                            Clubs
+                                        </h4>
+                                    </div>
+                                    <div className="sidebar-modal-inner-options-section-items">
+                                        {
+                                            renderUserShortcutSection("clubs")
+                                        }
+                                    </div>
+                                </div>
+                                <div className="sidebar-modal-inner-options-section">
+                                    <div className="sidebar-modal-inner-options-section-header">
+                                        <h4>
+                                            Events
+                                        </h4>
+                                    </div>
+                                    <div className="sidebar-modal-inner-options-section-items">
+                                        {
+                                            renderUserShortcutSection("events")
+                                        }
+                                    </div>
+                                </div>
+                                <div className="sidebar-modal-inner-options-section">
+                                    <div className="sidebar-modal-inner-options-section-header">
+                                        <h4>
+                                            Projects
+                                        </h4>
+                                    </div>
+                                    <div className="sidebar-modal-inner-options-section-items">
+                                        {
+                                            renderUserShortcutSection("projects")
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="sidebar-modal-inner-buttons">
+                                <div className="sidebar-modal-inner-buttons-button sidebar-modal-inner-buttons-button-cancel">
+                                    <button onClick={handleCloseAddNewShortcut}>
+                                        Cancel
+                                    </button>
+                                </div>
+                                <div className="sidebar-modal-inner-buttons-button sidebar-modal-inner-buttons-button-confirm">
+                                    <button onClick={handleAddNewShortcuts}>
+                                        Confirm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </aside>
         )
     }

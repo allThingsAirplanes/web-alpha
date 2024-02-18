@@ -50,6 +50,7 @@ export async function POST(req, res) {
             //     session.data.id
             // ],
             type: reqjson.type,
+            category: reqjson.type,
             invite_status: "PUBLIC",
             slug: slugify(`${reqjson.name.toLowerCase()} ${randSlugNum}`)
             //${} is how you inject js

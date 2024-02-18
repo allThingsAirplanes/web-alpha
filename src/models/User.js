@@ -10,6 +10,18 @@ const userInterestSchema = new mongoose.Schema({
     }
 })
 
+const dashboardShortcutsSchema = new mongoose.Schema({
+    picture: {
+        type: mongoose.Schema.Types.String
+    },
+    name: {
+        type: mongoose.Schema.Types.String
+    },
+    link: {
+        type: mongoose.Schema.Types.String
+    }
+})
+
 const userSchema = new mongoose.Schema ({
     username: {
         type: mongoose.Schema.Types.String,
@@ -23,7 +35,20 @@ const userSchema = new mongoose.Schema ({
     },
     interests: [
         userInterestSchema
+    ],
+    profile_description: {
+        type: mongoose.Schema.Types.String,
+    },
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
+    dashboard_shortcuts: [
+        dashboardShortcutsSchema
     ]
 })
+userSchema.index({username: "text"})
 export default mongoose.models.User ?? mongoose.model ("User", userSchema)
 //This is saying that if we were to have a model in the catch, then we are going to use the catch model. Otherwise, we will use this newly created user model. 

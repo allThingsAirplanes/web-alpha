@@ -12,6 +12,8 @@
         gap: 2.5rem;
         //the & grabs everything up the tree, everything that is in the parent(whatever is the higher level) of the select item (the & reaplces.header on line 2)
         &-logo {
+            display: flex;
+            align-items: center;
             width: 6.25rem;
             height: 6.25rem;
             //rem: a rem is a relative unit. That means that it is a multiplier of the default font size of the application. 

@@ -44,7 +44,7 @@ export default () => {
                         </Link>
                     </div>
                     <div>
-                        <Link href="/">
+                        <Link href="/friends">
                             Friends
                         </Link>
                     </div>
@@ -83,7 +83,7 @@ export default () => {
         <header className="header">
             <div className="header-left">
                 <div className="header-left-logo">
-                    <img src="https://us.123rf.com/450wm/ascom73/ascom732201/ascom73220100072/180637141-airplane-icon-vector-transportation-symbol-for-graphic-design-logo-website-social-media-mobile-app.jpg?ver=6" />
+                    <img src="/ataLogo.svg" />
                 </div>
                 <div className="header-left-actions">
                     <div className="header-left-actions-home header-left-actions-icon">

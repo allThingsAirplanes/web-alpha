@@ -4,6 +4,8 @@ import {
 
 import { connectMongo } from "@/config/mongo"
 
+import Event from "@/models/Event"
+
 import Club from "@/models/Club"
 import Project from "@/models/Project"
 import User from "@/models/User"
@@ -30,15 +32,25 @@ export async function GET() {
         const userClubs = await Club.find({
             members: session.data.id
             //this should only get the clubs where the user is the member
-        }).populate({
-            path: "posts"
-        })
+        }).populate([
+            {
+                path: "posts.author"
+            },
+            {
+                path: "posts.comments.author"
+            }
+        ])
 
         const userProjects = await Project.find({
             "collaborators.user": session.data.id
-        }).populate({
-            path: "posts"
-        })
+        }).populate([
+            {
+                path: "posts.author"
+            },
+            {
+                path: "posts.suggestions.author"
+            }
+        ])
 
         const userData = await User.findById(session.data.id).populate({
             path: "interests"
@@ -49,13 +61,35 @@ export async function GET() {
             return interest.name
         })
 
-        console.log("User interests map: ", userInterestsMap)
+        // console.log("User interests map: ", userInterestsMap)
+        const userOwnPosts = await Post.find({
+            author: session.data.id
+        }).populate([
+            {
+                path: "author"
+            },
+            {
+                path: "comments.author"
+            }
+        ]).sort({updatedAt:-1})
 
-        const userInterestedPosts = await Post.find({
+        console.log("User own post", userOwnPosts)
+
+        let userInterestedPosts = await Post.find({
             category: {
                 $in: userInterestsMap
             }
-        }).sort({updatedAt: -1})
+        }).populate([
+            {
+                path: "author"
+            },
+            {
+                path: "comments.author"
+            }
+        ]).sort({ updatedAt: -1 })
+
+        //For now, all of the user's own post are attached to the user interested posts in the algorithm. 
+        userInterestedPosts = userInterestedPosts.concat(userOwnPosts)
 
         console.log("User intered posts: ", userInterestedPosts)
 
@@ -64,10 +98,10 @@ export async function GET() {
         // POST RANKING ALGORITHM
         // ================================================
         const userClubsPosts = []
-        for(let club of userClubs) {
+        for (let club of userClubs) {
             const clubObj = club.toObject()
 
-            for(let post of clubObj.posts) {
+            for (let post of clubObj.posts) {
                 userClubsPosts.push({
                     ...post,
                     type: "CLUB"
@@ -75,13 +109,13 @@ export async function GET() {
             }
         }
 
-        console.log("User club posts: ", userClubsPosts)
+        // console.log("User club posts: ", userClubsPosts)
 
         const userProjectsPosts = []
-        for(let project of userProjects) {
+        for (let project of userProjects) {
             const projectObj = project.toObject()
 
-            for(let post of projectObj.posts) {
+            for (let post of projectObj.posts) {
                 userProjectsPosts.push({
                     ...post,
                     type: "PROJECT"
@@ -89,7 +123,7 @@ export async function GET() {
             }
         }
 
-        console.log("User projects posts: ", userProjectsPosts)
+        // console.log("User projects posts: ", userProjectsPosts)
 
         const userInterestedPostsMapped = userInterestedPosts.map((post) => {
             return {
@@ -101,17 +135,17 @@ export async function GET() {
         const allPostsLen = userClubsPosts.length + userProjectsPosts.length + userInterestedPosts.length
 
         const sortedPosts = [];
-   
-        while(sortedPosts.length < allPostsLen) {
+
+        while (sortedPosts.length < allPostsLen) {
             const randNum = Math.random() * 100;
 
             // Push club post
-            if(randNum <= 50) {
+            if (randNum <= 50) {
                 const nextRemainingPost = userClubsPosts.findIndex((post) => {
                     return post?.type === "CLUB"
                 })
 
-                if(nextRemainingPost > -1) {
+                if (nextRemainingPost > -1) {
                     sortedPosts.push(userClubsPosts[nextRemainingPost])
 
                     userClubsPosts[nextRemainingPost] = null
@@ -122,7 +156,7 @@ export async function GET() {
                     return post?.type === "PROJECT"
                 })
 
-                if(nextRemainingPost > -1) {
+                if (nextRemainingPost > -1) {
                     sortedPosts.push(userProjectsPosts[nextRemainingPost])
 
                     userProjectsPosts[nextRemainingPost] = null
@@ -131,7 +165,7 @@ export async function GET() {
                         return post?.type === "INTEREST_POST"
                     })
 
-                    if(nextRemainingPost > -1) {
+                    if (nextRemainingPost > -1) {
                         sortedPosts.push(userInterestedPostsMapped[nextRemainingPost])
                     }
 
@@ -140,21 +174,36 @@ export async function GET() {
                 // Push other posts
             }
 
-            console.log("Num of sorted posts", sortedPosts.length)
+            // console.log("Num of sorted posts", sortedPosts.length)
         }
         // END POST RANKING ALGORITHM
         // ============================================================
 
 
-        console.log("Sorted posts: ", sortedPosts)
+        // console.log("Sorted posts: ", sortedPosts)
+        //straightforward implementation of event reccomendations
+        //If a category matches a user interest, then we are going to rec the event
+
+        const reccomendedEvents = await Event.find ({
+            category: {
+                $in: userInterestsMap
+            }
+        })
+        const reccomendedProjects = await Project.find ({
+            category: {
+                $in: userInterestsMap
+            }
+        })
 
 
         const resData = {
             clubs: userClubs,
             projects: userProjects,
+            reccomendedEvents: reccomendedEvents,
+            reccomendedProjects: reccomendedProjects,
             userInterests: userInterests,
             posts: sortedPosts
-        } 
+        }
 
         return NextResponse.json(resData)
     } catch (error) {

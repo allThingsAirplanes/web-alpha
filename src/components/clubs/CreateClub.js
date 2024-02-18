@@ -39,23 +39,22 @@ export default () => {
             event.preventDefault()
             const mediaRefFiles = mediaRef.current?.files
             console.log("mediaRefFiles", mediaRefFiles)
+            let mediaUploadURL = null
             //? -> if no files are uploaded - it is not going to throw an error
-            if (!mediaFile) {
-                alert("You must upload a file")
-                return
+            if (mediaFile) {
+                const res = await fetch(`/api/uploadClubMedia?filename=${mediaFile.name}`, {
+                    method: "POST",
+                    body: mediaFile
+                })
+                const resJson = await res.json()
+                console.log("Club Media Upload resJson", resJson)
+                //First thing we handle uplaoding image to the blob storage
+                //We need to put the image into the blob, but now we have to 
+                //save the image into the database with the url
+                //When we upload the blob
+                //We will get a URL that points to it. 
+                mediaUploadURL = resJson.url
             }
-            const res = await fetch(`/api/uploadClubMedia?filename=${mediaFile.name}`, {
-                method: "POST",
-                body: mediaFile
-            })
-            const resJson = await res.json()
-            console.log("Club Media Upload resJson", resJson)
-            //First thing we handle uplaoding image to the blob storage
-            //We need to put the image into the blob, but now we have to 
-            //save the image into the database with the url
-            //When we upload the blob
-            //We will get a URL that points to it. 
-            const mediaUploadURL = resJson.url
             const newClubData = {
                 description: description,
                 club_picture: mediaUploadURL,

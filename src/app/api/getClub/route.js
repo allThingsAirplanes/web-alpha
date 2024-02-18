@@ -12,9 +12,7 @@ export const revalidate = 0
 
 export async function GET(request) {
     try {
-        await connectMongo(
-
-        ) 
+        await connectMongo() 
         const { searchParams } = new URL(request.url);
         const slug = searchParams.get('slug');
         const club = await Club.findOne({
@@ -23,6 +21,10 @@ export async function GET(request) {
             //value on the left (used to be slug: slug)  
         }).populate([{
             path: "members"
+        }, {
+            path: "posts.author"
+        }, {
+            path: "posts.comments.author"
         }]).sort({createdAt: -1})
         const resData = club
         return NextResponse.json(resData)

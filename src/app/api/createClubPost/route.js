@@ -39,7 +39,8 @@ export async function POST(req, res) {
         //     //only store the hash!!!!!!!!!!!!!!!!!!!!
         // }).save()
         const updatedClub = await Club.findOneAndUpdate({
-            _id: reqjson.club._id
+            _id: reqjson.club._id,
+            members: session.data.id
         }, {
             $push: {
                 posts: {

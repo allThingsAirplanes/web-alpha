@@ -3,10 +3,6 @@ import {
 } from "next/server"
 
 import {
-    cookies
-} from "next/headers"
-
-import {
     connectMongo
 } from "@/config/mongo.js"
 import Post from "@/models/Post"

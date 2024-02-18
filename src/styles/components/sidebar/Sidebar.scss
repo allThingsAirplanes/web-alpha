@@ -33,5 +33,167 @@
         &-title {
             text-align: center;
         }
+        &-items {
+            &-item {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                margin-top: 1rem;
+                &-container {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                &-remove {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    cursor: pointer;
+                    transform: translateY(7px);
+                    & svg {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+                &-image {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    & img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+        &-add {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            &-button{
+                font-size: 1.25rem;
+                background-color: var(--color_btn_blue);
+                color: var(--color_white);
+                padding: 0.5rem 0.35rem;
+                margin-top: 1.25rem;
+                margin-bottom: 1.25rem;
+                cursor: pointer;
+            }
+        }
+    }
+    &-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+        &-inner{
+            position: relative;
+            background-color: var(--color_white);
+            width: 62.5vw;
+            height: 25rem;
+            overflow: scroll;
+            padding: 1rem 2.5vw;
+            border-radius: 1rem;
+            border: 2px solid rgba(0, 0, 0, 0.5);
+            &-header {
+                font-size: 1.25rem;
+                border-bottom: 2px solid var(--color_grey_light);
+                padding: 0.5rem 0;
+                padding-bottom: 1rem;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1rem;
+                &-close {
+                    display: flex;
+                    &-icon {
+                        width: 1.75rem;
+                        height: 1.75rem;
+                        cursor: pointer;
+                        & svg {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+            &-options {
+                &-section {
+                &-header {
+                    font-size: 1.25rem;
+
+                }
+                    &-items {
+                        margin: 1rem;
+                        &-item {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            &-left {
+                                display: flex;
+                                align-items: center;
+                                &-image {
+                                    width: 2.5rem;
+                                    height: 2.5rem;
+                                    & img {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                    }
+                                }
+                            }
+                            &-check {
+                                &-icon {
+                                    width: 2.5rem;
+                                    height: 2.5rem;
+                                    & svg {
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: contain;
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            &-buttons {
+                display: flex;
+                gap: 1rem;
+                position: absolute;
+                right: 2.5vw;
+                padding-bottom: 1rem;
+                &-button {
+                    & button {
+                        padding: 0.5rem;
+                        font-size: 1.25rem;
+                        cursor: pointer;
+                    }
+                    &-cancel {
+                        & button {
+                            border: 3px solid var(--color_btn_blue);
+                            color: var(--color_btn_blue);
+                            background-color: var(--color_white);
+                        }
+                    }
+                    &-confirm {
+                        & button {
+                            background-color: var(--color_btn_blue);
+                            color: var(--color_white);
+                            border: 3px solid var(--color_btn_blue);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

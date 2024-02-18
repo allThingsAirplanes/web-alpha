@@ -4,11 +4,18 @@ import {
     useState
 } from "react"
 export default (props) => {
+    const postCategories = {
+        build: "BUILD",
+        idea: "IDEA",
+        command: "COMMAND"
+    }
     const mediaRef = useRef(null)
     const contentRef = useRef(null)
     const [showPostForm, setShowPostForm] = useState(false)
     const [mediaFile, setMediaFile] = useState(null)
+    const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+    const [category, setCategory] = useState(postCategories.build)
     const handleShowPostForm = () => {
         setShowPostForm(!showPostForm)
         //this is a toggle - if it is true, we set it to false, if its false, we set it to true
@@ -20,31 +27,42 @@ export default (props) => {
     const handleContentChange = (event) => {
         setContent(event.target.value)
     }
+
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value)
+    }
+
+    const handleCategoryChange = (event) => {
+        setCategory(event.target.value)
+    }
+
     const handlePostSubmit = async (event) => {
         try {
             event.preventDefault()
             const mediaRefFiles = mediaRef.current?.files
             const contentRefValue = contentRef.current?.value
             console.log("mediaRefFiles", mediaRefFiles)
+            let mediaUploadURL = null
             //? -> if no files are uploaded - it is not going to throw an error
-            if (!mediaFile) {
-                alert("You must upload a file")
-                return
+            if (mediaFile) {
+                const res = await fetch(`/api/uploadPostMedia?filename=${mediaFile.name}`, {
+                    method: "POST",
+                    body: mediaFile
+                })
+                const resJson = await res.json()
+                console.log("Post Media Upload resJson", resJson)
+                //First thing we handle uplaoding image to the blob storage
+                //We need to put the image into the blob, but now we have to 
+                //save the image into the database with the url
+                //When we upload the blob
+                //We will get a URL that points to it. 
+                mediaUploadURL = resJson.url
             }
-            const res = await fetch(`/api/uploadPostMedia?filename=${mediaFile.name}`, {
-                method: "POST",
-                body: mediaFile
-            })
-            const resJson = await res.json()
-            console.log("Post Media Upload resJson", resJson)
-            //First thing we handle uplaoding image to the blob storage
-            //We need to put the image into the blob, but now we have to 
-            //save the image into the database with the url
-            //When we upload the blob
-            //We will get a URL that points to it. 
-            const mediaUploadURL = resJson.url
             const newPostData = {
-                content: content,
+                title, 
+                content,
+                category,
+                //again, if the key and the value matches
                 media_url: mediaUploadURL
             }
             const submitData = {
@@ -88,13 +106,44 @@ export default (props) => {
                 <form onSubmit={handlePostSubmit}>
                     <div>
                         <label>
-                            New Project Post
+                            New Log Entry
+                        </label>
+                        <input className="upload-post-form-input" type="text"
+                            onChange={
+                                handleTitleChange
+                            }
+                            placeholder="Enter the title"
+                        />
+                    </div>
+                    <div>
+                        <label>
+                            Category
+                        </label>
+                        <select className="upload-post-form-select" 
+                            onChange={
+                                handleCategoryChange
+                            }
+                        >
+                            <option value={postCategories.build}>
+                                Build
+                            </option>
+                            <option value={postCategories.idea}>
+                                Idea
+                            </option>
+                            <option value={postCategories.command}>
+                                Command
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>
+                            Desciption
                         </label>
                         <textarea className="upload-post-form-textarea"
                             onChange={
                                 handleContentChange
                             }
-                            placeholder="Write Something"
+                            placeholder="Describe your progress"
                         />
                     </div>
                     <div>

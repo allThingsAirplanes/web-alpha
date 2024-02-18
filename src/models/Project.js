@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 //There are databases, and then there are collections within databases. (We could have multiple databses each independent to each other)
 //A schema is just for one collection inside a database
 
-const commentSchema = new mongoose.Schema({
+const suggestionSchema = new mongoose.Schema({
     content: {
         type: mongoose.Schema.Types.String
     }, 
@@ -21,6 +21,9 @@ const commentSchema = new mongoose.Schema({
 //but with Mongo, it is very simple and straightforwards. 
 
 const postSchema = new mongoose.Schema ({
+    title: {
+        type: mongoose.Schema.Types.String
+    },
     content: {
         type: mongoose.Schema.Types.String
     },
@@ -39,8 +42,8 @@ const postSchema = new mongoose.Schema ({
             type: mongoose.Schema.Types.String
         }
     ],
-    comments: [
-        commentSchema
+    suggestions: [
+        suggestionSchema
     ]
 }, {
     timestamps: true
@@ -59,7 +62,7 @@ const collaboratorSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true
-})
+}) 
 
 const projectSchema = new mongoose.Schema({
     //A slug is a string that identifies a piece of content in a human readable way
@@ -80,6 +83,9 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String
     },
     description: {
+        type: mongoose.Schema.Types.String
+    },
+    category: {
         type: mongoose.Schema.Types.String
     },
     collaborators: [

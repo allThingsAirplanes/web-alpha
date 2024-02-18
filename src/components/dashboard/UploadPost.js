@@ -13,6 +13,7 @@ export default () => {
         aerospace: "AEROSPACE",
         other: "OTHER"
     }
+    //the user interests are determining which post get reccomended. 
 
     const mediaRef = useRef(null)
     const contentRef = useRef(null)
@@ -43,23 +44,22 @@ export default () => {
             const mediaRefFiles = mediaRef.current?.files
             const contentRefValue = contentRef.current?.value
             console.log("mediaRefFiles", mediaRefFiles)
+            let mediaUploadURL = null
             //? -> if no files are uploaded - it is not going to throw an error
-            if (!mediaFile) {
-                alert("You must upload a file")
-                return
+            if (mediaFile) {
+                const res = await fetch(`/api/uploadPostMedia?filename=${mediaFile.name}`, {
+                    method: "POST",
+                    body: mediaFile
+                })
+                const resJson = await res.json()
+                console.log("Post Media Upload resJson", resJson)
+                //First thing we handle uplaoding image to the blob storage
+                //We need to put the image into the blob, but now we have to 
+                //save the image into the database with the url
+                //When we upload the blob
+                //We will get a URL that points to it. 
+                mediaUploadURL = resJson.url
             }
-            const res = await fetch(`/api/uploadPostMedia?filename=${mediaFile.name}`, {
-                method: "POST",
-                body: mediaFile
-            })
-            const resJson = await res.json()
-            console.log("Post Media Upload resJson", resJson)
-            //First thing we handle uplaoding image to the blob storage
-            //We need to put the image into the blob, but now we have to 
-            //save the image into the database with the url
-            //When we upload the blob
-            //We will get a URL that points to it. 
-            const mediaUploadURL = resJson.url
             const newPostData = {
                 content: content,
                 media_url: mediaUploadURL,

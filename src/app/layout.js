@@ -3,6 +3,7 @@ import '@/styles/main.scss'
 import Wrapper from '@/components/wrapper/Wrapper'
 import Header from '@/components/header/Header'
 import Sidebar from '@/components/dashboard/sidebar/Sidebar'
+import Footer from '@/components/footer/Footer'
 
 //common code that appears on every page - we want this header to appear
 //on every page of the application
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
               {children}
             </div>
           </div>
+          <Footer />
         </Wrapper>
       </body>
     </html>

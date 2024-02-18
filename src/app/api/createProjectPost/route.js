@@ -39,13 +39,16 @@ export async function POST(req, res) {
         //     //only store the hash!!!!!!!!!!!!!!!!!!!!
         // }).save()
         const updatedProject = await Project.findOneAndUpdate({
-            _id: reqjson.project._id
+            _id: reqjson.project._id,
+            collaborators: session.data.id
         }, {
             $push: {
                 posts: {
                     $each: [
                         {
+                            title: reqjson.post.title,
                             content: reqjson.post.content,
+                            category: reqjson.post.category,
                             media_url: reqjson.post.media_url,
                             author: session.data.id
                         }

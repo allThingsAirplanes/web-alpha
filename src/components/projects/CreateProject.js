@@ -5,18 +5,19 @@ import {
 } from "react"
 export default () => {
     const projectTypeOptions = {
-        hobby: "HOBBY",
+        commercial_aviation: "COMMERCIAL_AVIATION",
+        military_aviation: "MILITARY_AVIATION",
+        drones: "DRONES_AERIAL_PHOTOGRAPHY",
         homebuilding: "HOMEBUILDING",
-        programming: "PROGRAMMING",
-        professional: "PROFESSIONAL",
-        drones: "DRONES",
+        aerospace: "AEROSPACE",
+        other: "OTHER"
     }
     //We should have types: homebuilding - programming - model building. 
     const mediaRef = useRef(null)
     const [mediaFile, setMediaFile] = useState(null)
     const [description, setdescription] = useState("")
     const [name, setName] = useState("")
-    const [type, setType] = useState(projectTypeOptions.hobby)
+    const [type, setType] = useState(projectTypeOptions.commerical_aviation)
 
     const MAX_NAME_CHARACTERS = 50
 
@@ -40,23 +41,22 @@ export default () => {
             event.preventDefault()
             const mediaRefFiles = mediaRef.current?.files
             console.log("mediaRefFiles", mediaRefFiles)
+            let mediaUploadURL = null
             //? -> if no files are uploaded - it is not going to throw an error
-            if (!mediaFile) {
-                alert("You must upload a file")
-                return
+            if (mediaFile) {
+                const res = await fetch(`/api/uploadProjectMedia?filename=${mediaFile.name}`, {
+                    method: "POST",
+                    body: mediaFile
+                })
+                const resJson = await res.json()
+                console.log("Project Media Upload resJson", resJson)
+                //First thing we handle uplaoding image to the blob storage
+                //We need to put the image into the blob, but now we have to 
+                //save the image into the database with the url
+                //When we upload the blob
+                //We will get a URL that points to it. 
+                mediaUploadURL = resJson.url
             }
-            const res = await fetch(`/api/uploadProjectMedia?filename=${mediaFile.name}`, {
-                method: "POST",
-                body: mediaFile
-            })
-            const resJson = await res.json()
-            console.log("Project Media Upload resJson", resJson)
-            //First thing we handle uplaoding image to the blob storage
-            //We need to put the image into the blob, but now we have to 
-            //save the image into the database with the url
-            //When we upload the blob
-            //We will get a URL that points to it. 
-            const mediaUploadURL = resJson.url
             const newProjectData = {
                 description: description,
                 project_picture: mediaUploadURL,
@@ -128,20 +128,23 @@ export default () => {
                                 type
                             }
                         >
-                            <option value={projectTypeOptions.hobby}>
-                                Hobby
+                            <option value={projectTypeOptions.commerical_aviation}>
+                                Commerical Aviation
                             </option>
-                            <option value={projectTypeOptions.professional}>
-                                Professional
+                            <option value={projectTypeOptions.military_aviation}>
+                                Military Aviation
                             </option>
                             <option value={projectTypeOptions.homebuilding}>
                                 Homebuilding
                             </option>
-                            <option value={projectTypeOptions.programming}>
-                                Programming
-                            </option>
                             <option value={projectTypeOptions.drones}>
                                 Drones
+                            </option>
+                            <option value={projectTypeOptions.aerospace}>
+                                Aerospace
+                            </option>
+                            <option value={projectTypeOptions.other}>
+                                Other
                             </option>
                         </select>
                     </div>
