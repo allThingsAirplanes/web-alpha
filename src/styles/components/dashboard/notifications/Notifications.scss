@@ -1,5 +1,108 @@
 .dashboard-notifications {
     min-height: 100vw;
     min-width: 15vw;
-    border: 2px solid red;
+    &-clubs {
+        display: flex;
+        background-color: var(--color_white);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        margin-right: 2rem;
+        flex-direction: column;
+        padding: 1rem;
+        &-header {
+            font-size: 0.95rem;
+            font-family: var(--font_display);
+            border-bottom: 2px solid var(--color_black);
+            margin-bottom: 1rem;
+            padding-bottom: 0.2rem;
+        }
+        &-announcements {
+            &-item {
+                &-header{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    font-size: 1rem;
+                    gap: 0.5rem;
+                    justify-content: space-between;
+                    margin-bottom: 0.75rem;
+                    &-image{
+                        overflow: hidden;
+                        border-radius: 100%;
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    &-clubName {
+                        color: var(--color_black);
+                    }
+                    &-username {
+                        color: var(--color_btn_blue);
+                    }
+                }
+                &-content {
+                    font-family: var(--font_dis);
+                    font-size: 1rem;
+                    padding-left: 0.1rem;
+                }
+            }
+        }
+    }
+    &-events {
+        display: flex;
+        background-color: var(--color_white);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        margin-right: 2rem;
+        flex-direction: column;
+        padding: 1rem;
+        &-header {
+            font-size: 0.95rem;
+            font-family: var(--font_display);
+            border-bottom: 2px solid var(--color_black);
+            margin-bottom: 1rem;
+            padding-bottom: 0.2rem;
+        }
+        &-announcements {
+            &-item {
+                &-header{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    font-size: 1rem;
+                    gap: 0.5rem;
+                    justify-content: space-between;
+                    margin-bottom: 0.75rem;
+                    &-image{
+                        overflow: hidden;
+                        border-radius: 100%;
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    &-eventName {
+                        color: var(--color_black);
+                        font-size: clamp(75%, 2.5vw, 100%);
+                        width: 45%;
+                    }
+                    &-username {
+                        color: var(--color_btn_blue);
+                    }
+                }
+                &-content {
+                    font-family: var(--font_dis);
+                    font-size: 1rem;
+                    padding-left: 0.1rem;
+                }
+            }
+        }
+    }
 }
